@@ -10,7 +10,7 @@ fi
 antigen use oh-my-zsh
 
 # Bundles
-# antigen bundle git
+#antigen bundle git
 antigen bundle gitfast
 antigen bundle git-flow
 antigen bundle git-extras
@@ -22,6 +22,7 @@ antigen bundle docker
 antigen bundle gem
 antigen bundle ruby
 antigen bundle rvm
+antigen bundle npm
 
 
 # Syntax highlighting
