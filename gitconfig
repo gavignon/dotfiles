@@ -1,0 +1,11 @@
+# This is Git's per-user configuration file.
+[core]
+# Please adapt and uncomment the following lines:
+	user = gavignon
+	email = gil.avignon@gmail.com
+	editor = vim
+[push]
+	default = simple
+[user]
+	name = Gil Avignon
+	email = gil.avignon@gmail.com

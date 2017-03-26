@@ -1,0 +1,50 @@
+#!/bin/bash
+
+export DOTFILES=~/.dotfiles
+export CACHE="$DOTFILES/cache"
+export ANTIGEN="$CACHE/antigen"
+export BACKUP="$CACHE/backups"
+
+function install_antigen() {
+    if [[ ! -d $ANTIGEN ]]; then
+        [[ -e "$CACHE" ]] || mkdir -p "$CACHE"
+
+        git clone https://github.com/zsh-users/antigen.git $ANTIGEN
+    fi
+}
+
+function make_symlinks() {
+    local files=($DOTFILES/*)
+    local dest base
+
+    if (( ${#files[@]} == 0 )); then return; fi
+
+    for file in "${files[@]}"; do
+        base="$(basename $file)"
+        dest="$HOME/.$base"
+
+        if [[ "$file" != "$CACHE" ]]; then
+            if [[ -e "$dest" && -f "$dest" ]]; then
+                [[ -e "$BACKUP" ]] || mkdir -p "$BACKUP"
+                mv "$dest" "$BACKUP"
+            fi
+
+            echo -e "Linking '$file' to '$dest'"
+            ln -s $file $dest
+        fi
+    done
+}
+
+if [[ ! -d $DOTFILES ]]; then
+	git clone https://github.com/gavignon/dotfiles.git $DOTFILES
+    cd $DOTFILES
+elif [[ "$1" == "update" ]]; then
+    cd $DOTFILES
+    rm -rf $CACHE
+    git pull
+fi
+
+install_antigen
+make_symlinks
+
+echo -e "\nAll done!"
